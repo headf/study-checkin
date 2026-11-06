@@ -1,0 +1,23 @@
+# 依赖
+node_modules/
+
+# Next.js 构建产物
+.next/
+out/
+
+# Prisma
+*.db
+*.db-journal
+
+# 环境变量
+.env
+.env.local
+.env*.local
+
+# 日志
+*.log
+npm-debug.log*
+
+# 系统文件
+.DS_Store
+Thumbs.db

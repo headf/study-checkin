@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  nickname    String        @default("")
+  avatar      String        @default("😊")
+  color       String        @default("blue")
+  createdAt   DateTime      @default(now())
+  records     DailyRecord[]
+  screenshots Screenshot[]
+}
+
+model DailyRecord {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  date       String   // YYYY-MM-DD
+  studyHours Float    @default(0)
+  words      Int      @default(0)
+  notes      String   @default("")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, date])
+}
+
+model Screenshot {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  date      String   // YYYY-MM-DD
+  filename  String
+  recognized Float   @default(0)  // OCR识别出的学习时长
+  createdAt DateTime @default(now())
+}
+
+model Setting {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String
+}
